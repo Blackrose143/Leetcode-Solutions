@@ -1,52 +1,25 @@
-struct node{
-    vector<node*> childs;
-    node(){
-        childs.resize(10);
-    }
-};
-
-struct trie{
-    node* root;
-    trie(){
-        root=new node();
-    }
-
-    void insert(string s){
-        node* cur=root;
-        for(char c:s){
-            int id=c-'0';
-            if(cur->childs[id]==nullptr)
-                cur->childs[id]=new node();
-            cur=cur->childs[id];
-        }
-    }
-
-    int search(string s){
-        node* cur=root;
-        int cnt=0;
-        for(char c:s){
-            int id=c-'0';
-            if(cur->childs[id]==nullptr)
-                return cnt;
-            cur=cur->childs[id];
-            cnt+=1;
-        }
-        return cnt;
-    }
-
-};
 class Solution {
 public:
     int longestCommonPrefix(vector<int>& arr1, vector<int>& arr2) {
-        trie t;
-        t=trie();
+        set<string> st;
+        for(int num:arr1){
+            string s=to_string(num);
+            for(int i=1;i<=s.length();i++)
+                st.insert(s.substr(0,i));
+        }
+        
         int ans=0;
-        for(int i:arr1)
-            t.insert(to_string(i));
-        
-        for(int i:arr2)
-            ans=max(ans,t.search(to_string(i)));
-        
+        for(int i:arr2){
+            string s=to_string(i);
+            int len=0;
+            for(int j=1;j<=s.length();j++){
+                cout << s.substr(0,j) << ' ';
+                if(st.find(s.substr(0,j))==st.end())
+                    break;
+                len=j;
+            }
+            ans=max(ans,len);
+        }
         return ans;
     }
 };
