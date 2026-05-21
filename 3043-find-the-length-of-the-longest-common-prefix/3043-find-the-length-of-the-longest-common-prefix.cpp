@@ -11,7 +11,7 @@ struct trie{
         root=new node();
     }
 
-    void insert(string& s,bool b){
+    void insert(string s){
         node* cur=root;
         for(char c:s){
             int id=c-'0';
@@ -21,7 +21,7 @@ struct trie{
         }
     }
 
-    int search(string& s){
+    int search(string s){
         node* cur=root;
         int cnt=0;
         for(char c:s){
@@ -41,14 +41,12 @@ public:
         trie t;
         t=trie();
         int ans=0;
-        for(int i:arr1){
-            string s=to_string(i);
-            t.insert(s,true);
-        }
-        for(int i:arr2){
-            string s=to_string(i);
-            ans=max(ans,t.search(s));
-        }
+        for(int i:arr1)
+            t.insert(to_string(i));
+        
+        for(int i:arr2)
+            ans=max(ans,t.search(to_string(i)));
+        
         return ans;
     }
 };
