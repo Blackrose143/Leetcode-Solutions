@@ -1,22 +1,14 @@
 class Solution {
 public:
-
-    int n,dp[50];
-    int rec(int i){
-        if(i==n)
-            return 1;
-        if(i>n)
-            return 0;
-        if(dp[i]!=-1)
-            return dp[i];
-        int ans=0;
-        ans+=rec(i+1);
-        ans+=rec(i+2);
-        return dp[i]=ans;
-    }
-    int climbStairs(int n_) {
-        n=n_;
+    int climbStairs(int n) {
+        if(n<=2)
+            return n;
+        int dp[n+1];
         memset(dp,-1,sizeof(dp));
-        return rec(0);
+        dp[n]=1,dp[n-1]=1;
+        for(int i=n-2;i>=0;i--){
+            dp[i]=dp[i+1]+dp[i+2];
+        }
+        return dp[0];
     }
 };
