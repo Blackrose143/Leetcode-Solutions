@@ -1,18 +1,20 @@
 class Solution {
 public:
-    int tribonacci(int n) {
-        if(n<=1)
-            return n;
-        if(n==2)
+
+    int n,dp[50];
+    int rec(int i){
+        if(i<=1)
+            return i;
+        if(i==2)
             return 1;
-        int dp[n+1];
+        if(dp[i]!=-1)
+            return dp[i];
+        return dp[i]=rec(i-1)+rec(i-2)+rec(i-3);
+    }
+    
+    int tribonacci(int n_) {
+        n=n_;
         memset(dp,-1,sizeof(dp));
-        dp[0]=0,dp[1]=1,dp[2]=1;
-        for(int i=3;i<=n;i++)
-            dp[i]=dp[i-1]+dp[i-2]+dp[i-3];
-        long long ans=0;
-        for(int i:dp)
-            ans+=i;
-        return dp[n];
+        return rec(n);
     }
 };
