@@ -1,20 +1,14 @@
 class Solution {
 public:
-
-    int n,dp[132];
-    int rec(int i,vector<int>& nums){
-        if(i>=n)
-            return 0;
-        if(dp[i]!=-1)
-            return dp[i];
-        int ans=0;
-        ans=max(ans,rec(i+2,nums)+nums[i]);
-        ans=max(ans,rec(i+1,nums));
-        return dp[i]=ans;
-    }
     int rob(vector<int>& nums) {
-        n=nums.size();
+        int n=nums.size();
+        int dp[n+1];
         memset(dp,-1,sizeof(dp));
-        return rec(0,nums);
+        dp[0]=nums[0];
+        if(n>1)
+        dp[1]=max(nums[0],nums[1]);
+        for(int i=2;i<n;i++)
+            dp[i]=max(dp[i-2]+nums[i],dp[i-1]);
+        return dp[n-1];
     }
 };
