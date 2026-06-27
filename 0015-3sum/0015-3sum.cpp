@@ -3,19 +3,25 @@ public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         sort(nums.begin(),nums.end());
         int n=nums.size();
-        set<vector<int>> ans;
+        vector<vector<int>> ans;
         for(int i=0;i<n;i++){
             if(i>0 && nums[i-1]==nums[i])
                 continue;
-            unordered_map<int,int> mp;
-            for(int j=i+1;j<n;j++){
-                int t=-(nums[i]+nums[j]);
-                if(mp.find(t)!=mp.end())
-                    ans.insert({nums[i],nums[j],t});
-                mp[nums[j]]++;
+            int j=i+1,k=n-1;
+            while(j<k){
+                int sum=nums[i]+nums[j]+nums[k];
+                if(sum<0)
+                    j++;
+                else if(sum>0)
+                    k--;
+                else{
+                    ans.push_back({nums[i],nums[j],nums[k]});
+                    j++;
+                    while(j<k && nums[j]==nums[j-1])
+                        j++;
+                }
             }
         }
-        vector<vector<int>> res(ans.begin(),ans.end());
-        return res;
+        return ans;
     }
 };
