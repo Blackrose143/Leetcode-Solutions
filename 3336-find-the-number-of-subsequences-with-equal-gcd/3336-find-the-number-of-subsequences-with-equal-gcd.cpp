@@ -7,11 +7,10 @@ public:
         if(idx==n)
             return (g1!=0 && g1==g2);
         
-        int &ans=dp[idx][g1][g2];
-        if(ans!=-1)
-            return ans;
+        if(dp[idx][g1][g2]!=-1)
+            return dp[idx][g1][g2];
 
-        ans=0;
+        int ans=0;
 
         ans = fun(idx+1,g1,g2,nums);
 
@@ -21,7 +20,7 @@ public:
         int ng2 = (g2==0) ? nums[idx] : gcd(g2,nums[idx]);
         ans = (ans + fun(idx+1,g1,ng2,nums)) % mod;
 
-        return ans;
+        return dp[idx][g1][g2] = ans;
     }
     
     int subsequencePairCount(vector<int>& nums) {
