@@ -12,25 +12,19 @@
 class Solution {
 public:
 
-    int rec(TreeNode* r) {
-        if(!r)
+    int fun(TreeNode* root) {
+        if(!root)
             return 0;
-        int l = rec(r->left)+1;
-        int h = rec(r->right)+1;
-        return max(l,h);
-    }
-
-    bool fun(TreeNode* r) {
-        if(!r)
-            return true;
-        int l = rec(r->left)+1;
-        int h = rec(r->right)+1;
-        if(abs(h-l)>1)
-            return false;
-        return fun(r->left) && fun(r->right);
+        int l = fun(root->left);
+        int r = fun(root->right);
+        if(l==-1 || r==-1 || abs(r-l)>1)
+            return -1;
+        return max(fun(root->left),fun(root->right))+1;
     }
 
     bool isBalanced(TreeNode* root) {
-        return fun(root);
+        if(!root)
+            return true;
+        return fun(root)>0;
     }
 };
