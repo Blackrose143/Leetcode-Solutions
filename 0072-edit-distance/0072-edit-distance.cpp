@@ -1,33 +1,24 @@
 class Solution {
 public:
-
-    int n,m;
-    vector<vector<int>> dp;
-    int fun(int i,int j,string& s,string& t) {
-        
-        if(i==n)
-            return m-j;
-
-        if(j==m)
-            return n-i;
-        
-        if(dp[i][j]!=-1)
-            return dp[i][j];
-
-        int ans=1e9;
-        if(s[i]==t[j])
-            ans = min(ans,fun(i+1,j+1,s,t));
-        else{
-            ans = min(ans,fun(i+1,j+1,s,t)+1);
-            ans = min(ans,fun(i+1,j,s,t)+1);
-            ans = min(ans,fun(i,j+1,s,t)+1);
-        }
-        return dp[i][j] = ans;
-    }
-
     int minDistance(string s, string t) {
-        n = s.size(), m = t.size();
-        dp.resize(n,vector<int>(m,-1));
-        return fun(0,0,s,t);
+        int n=s.length();
+        int m=t.length();
+
+        vector<vector<int>> dp(n+1,vector<int>(m+1));
+        for(int i=1;i<=n;i++)
+            dp[i][0] = i;
+        
+        for(int i=1;i<=m;i++)
+            dp[0][i] = i;
+
+        for(int i=1;i<=n;i++) {
+            for(int j=1;j<=m;j++) {
+                if(s[i-1]==t[j-1])
+                    dp[i][j] = dp[i-1][j-1];
+                else
+                    dp[i][j] = min({dp[i-1][j-1],dp[i][j-1],dp[i-1][j]})+1;
+            }
+        }
+        return dp[n][m];
     }
 };
