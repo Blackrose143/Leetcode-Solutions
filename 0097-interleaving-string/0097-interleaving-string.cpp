@@ -1,36 +1,29 @@
 class Solution {
 public:
-
-    int n,m,l;
-    vector<vector<int>> dp;
-    bool fun(int i,int j,int k,string& s1,string& s2,string& t) {
-
-        if(k==l)
-            return i==n && j==m;
-
-        if(i>=n && j>=m)
-            return false;
-
-        if(dp[i][j]!=-1)
-            return dp[i][j];
-
-        bool ans=false;
-        if(i<n && s1[i]==t[k])
-            ans |= fun(i+1,j,k+1,s1,s2,t);
-        if(j<m && s2[j]==t[k])
-            ans |= fun(i,j+1,k+1,s1,s2,t);
-        return dp[i][j] = ans;
-    }
-
     bool isInterleave(string s1, string s2, string s3) {
-        n = s1.size();
-        m = s2.size();
-        l = s3.size();
+        
+        int n=s1.size();
+        int m=s2.size();
+        int l=s3.size();
 
-        if(n+m != l)
+        if(n+m!=l)
             return false;
-            
-        dp.assign(n+m,vector<int>(m+n,-1));
-        return fun(0,0,0,s1,s2,s3);
+        
+        if(n<m)
+            return isInterleave(s2,s1,s3);
+
+        vector<bool> dp(n+1);
+        dp[0] = true;
+
+        for(int i=1;i<=m;i++)
+            dp[i] = dp[i-1] && s2[i-1]==s3[i-1];
+
+        for(int i=1;i<=n;i++) {
+            dp[0] = dp[0] && s1[i-1]==s3[i-1];
+            for(int j=1;j<=m;j++) {
+                dp[j] = (dp[j] && s1[i-1]==s3[j+i-1]) || (dp[j-1] && s2[j-1]==s3[j+i-1]);
+            }
+        }
+        return dp[m];
     }
 };
