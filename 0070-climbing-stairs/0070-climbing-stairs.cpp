@@ -1,14 +1,27 @@
 class Solution {
 public:
-    int climbStairs(int n) {
-        if(n<=2)
-            return n;
-        int dp[n+1];
-        memset(dp,-1,sizeof(dp));
-        dp[n]=1,dp[n-1]=1;
-        for(int i=n-2;i>=0;i--){
-            dp[i]=dp[i+1]+dp[i+2];
-        }
-        return dp[0];
+
+    int n;
+    vector<int> dp;
+    int fun(int i) {
+        if(i>n)
+            return 0;
+        
+        if(i==n)
+            return 1;
+
+        if(dp[i]!=-1)
+            return dp[i];
+
+        int ans=0;
+        ans += fun(i+1);
+        ans += fun(i+2);
+        return dp[i] = ans;
+    }
+
+    int climbStairs(int n_) {
+        n = n_;
+        dp.resize(n,-1);
+        return fun(0);
     }
 };
