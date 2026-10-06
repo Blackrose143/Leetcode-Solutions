@@ -3,7 +3,7 @@ public:
     int minAddToMakeValid(string s) {
 
         stack<int> st;
-        int val = 0;
+        int valid = 0;
         int n = s.size();
 
         for(int i = 0; i < s.size(); i++){
@@ -13,13 +13,13 @@ public:
                 
                 if(!st.empty() && st.top() == '(' && s[i] == ')'){
                     st.pop();
-                    val++;
+                    valid++;
 
                 } 
             }
         }
 
-        return n - (2 * val);
+        return n - (2 * valid);
         
     }
 };
