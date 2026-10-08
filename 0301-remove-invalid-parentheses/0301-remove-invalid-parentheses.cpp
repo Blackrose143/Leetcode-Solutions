@@ -8,15 +8,8 @@ public:
         if(cnt<0)
             return ;
         
-        if(t.length()+(n-i)<mx)
-            return ;
-
         if(i>=n) {
             if(cnt==0) {
-                if(t.length()>mx) {
-                    res.clear();
-                    mx = t.length();
-                }
                 res.insert(t);
             }
             return ;
@@ -41,7 +34,13 @@ public:
         string t="";
         fun(0,s,t,0);
 
-        vector<string> ans(res.begin(),res.end());
+        vector<string> ans;
+        int m =0;
+        for(string x:res)
+            m = max(m,(int)x.size());
+        for(string x:res)
+            if(x.size()==m)
+                ans.push_back(x);
         return ans;
     }
 };
